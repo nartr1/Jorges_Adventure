@@ -1,0 +1,168 @@
+[22:18:48] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[22:18:48] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[22:18:48] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[13:37:15] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[13:37:15] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[13:37:15] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:28:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:28:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:28:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:28:30] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:28:30] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:28:30] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:29:50] [CONFIG] [orxConfig.c:orxConfig_Load(4387)] [GAME_TESTINGd.ini]: Can't load file: invalid / file not found
+[14:29:50] [RENDER] [orxViewport.c:orxViewport_CreateFromConfig(1668)] Config file does not contain viewport section named MainViewport.
+[14:29:50] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Scene.
+[14:31:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:31:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:31:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:34:03] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:34:03] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:34:03] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:35:43] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:35:43] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:35:43] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:35:44] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:35:44] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:35:44] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:35:44] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun).
+[14:35:44] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleAnimFromConfig(2241)] AnimSet [HeroAnimationSet]: Failed to create anim [HeroRun], couldn't retrieve associated texture's size.
+[14:35:44] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleFromConfig(2499)] AnimSet [HeroAnimationSet]: Can't add link(s) starting from [HeroRun]: source anim is missing.
+[14:35:44] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:35:44] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:35:44] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:35:44] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:35:44] [ASSERT] [orxAnimSet.c:orxAnimSet_ComputeAnim(3438)] FAILED ASSERTION [_u32SrcAnim < orxAnimSet_GetAnimCount(_pstAnimSet)]
+[14:37:20] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:37:20] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:37:20] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:37:20] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = ../data/texture/Jorge.png -> Jorge.png
+[14:37:20] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:37:20] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:37:20] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [../data/texture/Jorge.png] and link it to texture.
+[14:37:20] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun).
+[14:37:20] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleAnimFromConfig(2241)] AnimSet [HeroAnimationSet]: Failed to create anim [HeroRun], couldn't retrieve associated texture's size.
+[14:37:20] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleFromConfig(2499)] AnimSet [HeroAnimationSet]: Can't add link(s) starting from [HeroRun]: source anim is missing.
+[14:37:20] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:37:20] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:37:20] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:37:20] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:37:20] [ASSERT] [orxAnimSet.c:orxAnimSet_ComputeAnim(3438)] FAILED ASSERTION [_u32SrcAnim < orxAnimSet_GetAnimCount(_pstAnimSet)]
+[14:38:05] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:38:05] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:38:05] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:38:06] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:38:06] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:38:06] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:38:06] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun).
+[14:38:06] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleAnimFromConfig(2241)] AnimSet [HeroAnimationSet]: Failed to create anim [HeroRun], couldn't retrieve associated texture's size.
+[14:38:06] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleFromConfig(2499)] AnimSet [HeroAnimationSet]: Can't add link(s) starting from [HeroRun]: source anim is missing.
+[14:38:06] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:06] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:38:06] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:06] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:06] [ASSERT] [orxAnimSet.c:orxAnimSet_ComputeAnim(3438)] FAILED ASSERTION [_u32SrcAnim < orxAnimSet_GetAnimCount(_pstAnimSet)]
+[14:38:07] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:38:07] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:38:07] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:38:07] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:38:07] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:38:07] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:38:07] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun).
+[14:38:07] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleAnimFromConfig(2241)] AnimSet [HeroAnimationSet]: Failed to create anim [HeroRun], couldn't retrieve associated texture's size.
+[14:38:07] [ANIM] [orxAnimSet.c:orxAnimSet_CreateSimpleFromConfig(2499)] AnimSet [HeroAnimationSet]: Can't add link(s) starting from [HeroRun]: source anim is missing.
+[14:38:07] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:07] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:38:07] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:07] [ANIM] [orxAnimPointer.c:orxAnimPointer_SetCurrentAnim(1070)] 0 is not a valid ID for the anim pointer.
+[14:38:07] [ASSERT] [orxAnimSet.c:orxAnimSet_ComputeAnim(3438)] FAILED ASSERTION [_u32SrcAnim < orxAnimSet_GetAnimCount(_pstAnimSet)]
+[14:39:19] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:39:19] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:39:19] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:39:19] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[14:39:19] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:39:19] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:39:19] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[14:39:19] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:39:30] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTING.ini]: <Display.Title> = GAME_TESTING (Debug) -> GAME_TESTING
+[14:39:30] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTING.ini]: <HeroGraphic.Texture> = Jorge.png -> Jorge_right.png
+[14:39:37] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:39:37] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:39:37] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:39:37] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[14:39:38] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:39:38] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:39:38] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[14:39:38] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:39:45] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTING.ini]: <Display.Title> = GAME_TESTING (Debug) -> GAME_TESTING
+[14:39:45] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTING.ini]: <HeroGraphic.Texture> = Jorge.png -> Jorge_right.png
+[14:39:49] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:39:49] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:39:49] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:39:49] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[14:39:49] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:39:49] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:39:49] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[14:39:49] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[14:41:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[14:41:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[14:41:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[14:41:59] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[14:41:59] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[14:41:59] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[14:41:59] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[14:41:59] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[15:18:18] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[15:18:18] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[15:18:18] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[15:18:18] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[15:18:18] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[15:18:18] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[15:18:18] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[15:18:18] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[15:43:10] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[15:43:10] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[15:43:10] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[15:43:10] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[15:43:10] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[15:43:10] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[15:43:10] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[15:43:10] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[16:17:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[16:17:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[16:17:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[16:17:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[16:17:02] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[16:17:02] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[16:17:02] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[16:17:02] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[16:20:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[16:20:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[16:20:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[16:20:02] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[16:20:02] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[16:20:02] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[16:20:02] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[16:20:02] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.
+[16:22:13] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[16:22:13] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[16:22:13] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[16:22:13] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[16:22:13] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[16:22:13] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[16:22:13] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[16:25:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[16:25:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[16:25:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[16:25:21] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[16:25:22] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[16:25:22] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[16:25:22] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[16:26:56] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2781)] [GAME_TESTINGd.ini]: Begin include @GAME_TESTING.ini@
+[16:26:56] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2787)] [GAME_TESTINGd.ini]: End include @GAME_TESTING.ini@
+[16:26:56] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <Display.Title> = GAME_TESTING -> GAME_TESTING (Debug)
+[16:26:56] [CONFIG] [orxConfig.c:orxConfig_ProcessBuffer(2676)] [GAME_TESTINGd.ini]: <HeroGraphic.Texture> = Jorge_right.png -> Jorge.png
+[16:26:56] [DISPLAY] [orxTexture.c:orxTexture_CreateFromFile(916)] Failed to load bitmap [Jorge.png] and link it to texture.
+[16:26:56] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroGraphic).
+[16:26:56] [DISPLAY] [orxGraphic.c:orxGraphic_CreateFromConfig(815)] Couldn't get text or texture for graphic (HeroRun1).
+[16:26:56] [OBJECT] [orxObject.c:orxObject_CreateFromConfig(5128)] Failed to find config section named Sound.

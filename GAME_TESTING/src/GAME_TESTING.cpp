@@ -5,6 +5,8 @@
 
 #include "orx.h"
 
+orxOBJECT *hero;
+
 /** Update function, it has been registered to be called every tick of the core clock
  */
 void orxFASTCALL Update(const orxCLOCK_INFO *_pstClockInfo, void *_pContext)
@@ -32,6 +34,8 @@ orxSTATUS orxFASTCALL Init()
     // Create the scene
     orxObject_CreateFromConfig("Scene");
 
+    hero = orxObject_CreateFromConfig("HeroObject");
+
     // Register the Update function to the core clock
     orxClock_Register(orxClock_Get(orxCLOCK_KZ_CORE), Update, orxNULL, orxMODULE_ID_MAIN, orxCLOCK_PRIORITY_NORMAL);
 
@@ -43,6 +47,39 @@ orxSTATUS orxFASTCALL Init()
  */
 orxSTATUS orxFASTCALL Run()
 {
+
+  orxVECTOR leftSpeed  = { -10, 0, 0 };
+  orxVECTOR rightSpeed = { 10, 0, 0 };
+  orxVECTOR upSpeed    = { 0, -10, 0 };
+  orxVECTOR downSpeed  = { 0, 10, 0  };
+
+  orxVECTOR flipLeft = { -2, 2, 1 };
+  orxVECTOR flipRight = { 2, 2, 1 };
+
+  if (orxInput_IsActive("GoLeft")){
+    orxObject_ApplyImpulse(hero, &leftSpeed, orxNULL);
+    orxObject_SetScale(hero, &flipLeft);
+    orxObject_SetTargetAnim(hero, "HeroRun");
+  }
+
+  else if (orxInput_IsActive("GoRight")){
+    orxObject_ApplyImpulse(hero, &rightSpeed, orxNULL);
+    orxObject_SetScale(hero, &flipRight);
+    orxObject_SetTargetAnim(hero, "HeroRun");
+  }
+
+  else if (orxInput_IsActive("GoUp")){
+    orxObject_ApplyImpulse(hero, &upSpeed, orxNULL);
+    orxObject_SetTargetAnim(hero, "HeroUp");
+  }
+
+  else if (orxInput_IsActive("GoDown")){
+    orxObject_ApplyImpulse(hero, &downSpeed, orxNULL);
+    orxObject_SetTargetAnim(hero, "HeroDown");
+  }
+  else {
+    orxObject_SetTargetAnim(hero, "HeroIdle");
+  }
     // Return orxSTATUS_FAILURE to instruct orx to quit
     return orxSTATUS_SUCCESS;
 }

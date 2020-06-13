@@ -6,11 +6,15 @@
 #include "orx.h"
 
 orxOBJECT *hero;
+orxSOUND *walkingSound;
 
 /** Update function, it has been registered to be called every tick of the core clock
  */
 void orxFASTCALL Update(const orxCLOCK_INFO *_pstClockInfo, void *_pContext)
 {
+    if ( (orxInput_IsActive("GoLeft")) || (orxInput_IsActive("GoRight")) || (orxInput_IsActive("GoUp")) || (orxInput_IsActive("GoDown")) ){
+      orxSound_Play(walkingSound);
+    }
     // Should quit?
     if(orxInput_IsActive("Quit"))
     {
@@ -35,6 +39,9 @@ orxSTATUS orxFASTCALL Init()
     orxObject_CreateFromConfig("Scene");
 
     hero = orxObject_CreateFromConfig("HeroObject");
+
+    walkingSound = orxSound_CreateFromConfig("WalkingSound");
+    //orxEvent_AddHandler(orxEVENT_TYPE_SOUND, EventHandler);
 
     // Register the Update function to the core clock
     orxClock_Register(orxClock_Get(orxCLOCK_KZ_CORE), Update, orxNULL, orxMODULE_ID_MAIN, orxCLOCK_PRIORITY_NORMAL);

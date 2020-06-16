@@ -149,7 +149,6 @@ class PlayerCharacter(arcade.Sprite):
 
     elif self.change_y < 0 and not self.jumping:
       self.texture = self.down_texture_pair[self.down_state]
-      self.is_down = True
       self.set_hit_box([[-30, -32], [19, -32], [20,-20], [0, -20]])
       if self.down_state == 7:
         pass
@@ -337,7 +336,7 @@ class MyGame(arcade.Window):
 
     #
 
-    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+    #self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 
@@ -354,6 +353,7 @@ class MyGame(arcade.Window):
 
     elif self.down_pressed and not self.up_pressed:
 #      if self.physics_engine.is_on_ladder():
+      self.player_sprite.is_down = True
       self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED+10)
 
     # Process up/down when on a ladder and no movement

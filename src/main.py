@@ -1,6 +1,8 @@
 #! /usr/bin/python3
 import arcade
 import os
+from spells import *
+
 
 # Constants
 SCREEN_WIDTH = 768
@@ -326,42 +328,25 @@ class MyGame(arcade.Window):
     score_text = f"Score: {self.score}"
     arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
 
-
-
     # Draw hit boxes.
-
     # for wall in self.wall_list:
-
     #     wall.draw_hit_box(arcade.color.BLACK, 3)
-
-    #
-
-    #self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+#    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 
   def process_keychange(self):
     # Process up/down
     if self.up_pressed and not self.down_pressed:
-#      if self.physics_engine.is_on_ladder():
-      self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-
-#    elif self.physics_engine.can_jump() and not self.jump_needs_reset:
-#      self.player_sprite.change_y = PLAYER_JUMP_SPEED
-#      self.jump_needs_reset = True
+      if self.physics_engine.can_jump() and not self.jump_needs_reset:
+        self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
+        self.player_sprite.change_y = PLAYER_JUMP_SPEED
+        self.jump_needs_reset = True
       #arcade.play_sound(self.jump_sound)
 
     elif self.down_pressed and not self.up_pressed:
-#      if self.physics_engine.is_on_ladder():
       self.player_sprite.is_down = True
-      self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED+10)
-
-    # Process up/down when on a ladder and no movement
-#    if self.physics_engine.is_on_ladder():
-#      if not self.up_pressed and not self.down_pressed:
-#        self.player_sprite.change_y = 0
-#      elif self.up_pressed and self.down_pressed:
-#        self.player_sprite.change_y = 0
+      self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED)
 
     # Process left/right
     if self.right_pressed and not self.left_pressed and not (self.player_sprite.is_down):
@@ -468,6 +453,14 @@ class MyGame(arcade.Window):
     if (key == arcade.key.BACKSPACE) and (self.command_buffer):
       self.command_buffer = self.command_buffer[:-1]
 
+    if (key == arcade.key.ENTER) and (self.command_buffer):
+      command_works = command_parsing(self.command_buffer)
+      if command_works:
+        print("Success!")
+        self.command_buffer = ""
+      else:
+        #Self damage goes here
+        pass
     if len(self.command_buffer) > 50:
       self.command_buffer = self.command_buffer[0:50]
 

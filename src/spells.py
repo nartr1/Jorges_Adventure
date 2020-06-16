@@ -1,16 +1,16 @@
 #! /usr/bin/python3
 
 
-enemy_name = ["slime", "goblin", "asdjfnbkjnbxiuxguawy", "bob", "self"]
-target = ["above", "below", "beside", "at", "to", "towards", "through", "on"] #enemy name has to be the last word :)
-spell = ["fireball", "icespike"]
-action = ["throw", "yeet", "ride", "cast", "fire", "fling", "lob"]
-
-
 def parse_command_string(p_action, p_spell, p_target, p_enemy_name):
-  #This checks the current battle and sees if the spell/action is valid
 
+  enemy_name = ["slime", "goblin", "asdjfnbkjnbxiuxguawy", "bob", "self"]
+  target = ["above", "below", "beside", "at", "to", "towards", "through", "on"] #enemy name has to be the last word :)
+  spell = ["fireball", "icespike"]
+  action = ["throw", "yeet", "ride", "cast", "fire", "fling", "lob"]
+
+  #This checks the current battle and sees if the spell/action is valid
   if ((p_action in action) and (p_spell in spell) and (p_target in target) and (p_enemy_name in enemy_name)):
+    #print("In command parsing true")
     return True
   else:
     return False
@@ -29,7 +29,7 @@ def remove_spaces(in_string):
       continue
   return out_string
 
-def command_parsing():
+def command_parsing(command):
 
   space_at = []
 
@@ -38,7 +38,6 @@ def command_parsing():
   player_target = None
   player_enemy_name = None
 
-  command = get_command_string()
   print(command)
 
   #Get spaces, then seperates words
@@ -47,10 +46,10 @@ def command_parsing():
 
   command_list = list(filter(None, command_list))
 
-  player_action = command_list[0]
-  player_spell  = command_list[1]
-  player_target  = command_list[2]
-  player_enemy_name  = command_list[3]
+  player_action = command_list[0].lower()
+  player_spell  = command_list[1].lower()
+  player_target  = command_list[2].lower()
+  player_enemy_name  = command_list[3].lower()
 
 
   print("Action :", player_action)
@@ -60,13 +59,13 @@ def command_parsing():
 
 
   if parse_command_string(player_action, player_spell, player_target, player_enemy_name):
-    return 1
+    return True
   else:
-    return 0
+    return False
 
 def main():
   while True:
-    if command_parsing():
+    if command_parsing(get_command_string()):
       print("Success!")
     else:
       print("Oh fuck...")

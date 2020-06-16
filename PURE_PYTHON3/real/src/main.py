@@ -70,12 +70,12 @@ class PlayerCharacter(arcade.Sprite):
     self.jumping = False
     self.climbing = False
     self.is_on_ladder = False
+    self.is_down = False
 
     self.right_state = 0
     self.left_state = 0
     self.up_state = 0
     self.down_state = 0
-
 
 
 
@@ -122,7 +122,6 @@ class PlayerCharacter(arcade.Sprite):
     # a different hit box, you can do it like the code below.
     #Bottom_Left, Bottom_Right, Top_Right, Top_Left
     #(x1, y1), (x2, y2), (x3, y3), (x4, y4)
-    self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
     #self.set_hit_box([[-30, -32], [19, -32], [20, 16], [-30, 0]])
     #self.set_hit_box(self.texture.hit_box_points)
 
@@ -133,14 +132,15 @@ class PlayerCharacter(arcade.Sprite):
     # Figure out if we need to flip face left or right
     if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
       self.character_face_direction = LEFT_FACING
-
     elif self.change_x > 0 and self.character_face_direction == LEFT_FACING:
       self.character_face_direction = RIGHT_FACING
-
 
     if self.change_y > 0:
       self.texture = self.jump_texture_pair[self.up_state]
       self.jumping = True
+
+      self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
+
       if self.up_state == 7:
         pass
       else:
@@ -148,14 +148,18 @@ class PlayerCharacter(arcade.Sprite):
       return
 
     elif self.change_y < 0 and not self.jumping:
-      self.texture = self.fall_texture_pair[self.down_state]
+      self.texture = self.down_texture_pair[self.down_state]
+      self.is_down = True
+      self.set_hit_box([[-30, -32], [19, -32], [20,-20], [0, -20]])
       if self.down_state == 7:
         pass
       else:
         self.down_state += 1
       return
     elif self.change_y < 0 and self.jumping:
-      self.texture = self.down_texture_pair[self.down_state]
+      self.texture = self.fall_texture_pair[self.down_state]
+      self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
+
       if self.down_state == 7:
         pass
       else:
@@ -169,7 +173,9 @@ class PlayerCharacter(arcade.Sprite):
       self.up_state = 0
       self.down_state = 0
       self.cur_texture = 0
+      self.is_down = False
       self.texture = self.idle_texture_pair[self.character_face_direction]
+      self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
       return
 
     # Walking animation
@@ -177,6 +183,10 @@ class PlayerCharacter(arcade.Sprite):
 
     if self.cur_texture > 7:
       self.cur_texture = 3
+    if self.character_face_direction == LEFT_FACING:
+      self.set_hit_box([[0, -32], [30, -32], [15,10], [-10, 0]])
+    elif self.character_face_direction == RIGHT_FACING:
+      self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
 
     self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
 
@@ -354,9 +364,9 @@ class MyGame(arcade.Window):
 #        self.player_sprite.change_y = 0
 
     # Process left/right
-    if self.right_pressed and not self.left_pressed:
+    if self.right_pressed and not self.left_pressed and not (self.player_sprite.is_down):
       self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-    elif self.left_pressed and not self.right_pressed:
+    elif self.left_pressed and not self.right_pressed and not (self.player_sprite.is_down):
       self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
     else:
       self.player_sprite.change_x = 0

@@ -1,5 +1,4 @@
 #! /usr/bin/python3
-
 import arcade
 import os
 
@@ -10,7 +9,7 @@ SCREEN_TITLE = "Platformer"
 
 # Constants used to scale our sprites from their original size
 TILE_SCALING = 0.5
-CHARACTER_SCALING = TILE_SCALING * 2
+CHARACTER_SCALING = TILE_SCALING * 1.75
 COIN_SCALING = TILE_SCALING
 SPRITE_PIXEL_SIZE = 64
 GRID_PIXEL_SIZE = 64  #(SPRITE_PIXEL_SIZE * TILE_SCALING)
@@ -72,6 +71,12 @@ class PlayerCharacter(arcade.Sprite):
     self.climbing = False
     self.is_on_ladder = False
 
+    self.right_state = 0
+    self.left_state = 0
+    self.up_state = 0
+    self.down_state = 0
+
+
 
 
     # --- Load Textures ---
@@ -115,8 +120,11 @@ class PlayerCharacter(arcade.Sprite):
 
     # Hit box will be set based on the first image used. If you want to specify
     # a different hit box, you can do it like the code below.
-    # self.set_hit_box([[-22, -64], [22, -64], [22, 28], [-22, 28]])
-    self.set_hit_box(self.texture.hit_box_points)
+    #Bottom_Left, Bottom_Right, Top_Right, Top_Left
+    #(x1, y1), (x2, y2), (x3, y3), (x4, y4)
+    self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
+    #self.set_hit_box([[-30, -32], [19, -32], [20, 16], [-30, 0]])
+    #self.set_hit_box(self.texture.hit_box_points)
 
 
 
@@ -130,43 +138,37 @@ class PlayerCharacter(arcade.Sprite):
       self.character_face_direction = RIGHT_FACING
 
 
-
-    # Climbing animation
-    if self.is_on_ladder:
-      self.climbing = True
-
-    if not self.is_on_ladder and self.climbing:
-      self.climbing = False
-
-    if self.climbing and abs(self.change_y) > 1:
-      self.cur_texture += 1
-
-      if self.cur_texture > 7:
-        self.cur_texture = 0
-
-    if self.climbing:
-      self.texture = self.climbing_textures[self.cur_texture // 4]
+    if self.change_y > 0:
+      self.texture = self.jump_texture_pair[self.up_state]
+      self.jumping = True
+      if self.up_state == 7:
+        pass
+      else:
+        self.up_state += 1
       return
 
-
-        # Jumping animation
-    if self.change_y > 0 and not self.is_on_ladder:
-      self.texture = self.jump_texture_pair[self.cur_texture]
-      self.cur_texture+=1
-      if self.cur_texture > 7:
-        self.cur_texture = 7
+    elif self.change_y < 0 and not self.jumping:
+      self.texture = self.fall_texture_pair[self.down_state]
+      if self.down_state == 7:
+        pass
+      else:
+        self.down_state += 1
       return
-
-    elif self.change_y < 0 and not self.is_on_ladder:
-      self.texture = self.fall_texture_pair[self.cur_texture]
-      self.cur_texture+=1
-      if self.cur_texture > 7:
-        self.cur_texture = 0
-      return
-
+    elif self.change_y < 0 and self.jumping:
+      self.texture = self.down_texture_pair[self.down_state]
+      if self.down_state == 7:
+        pass
+      else:
+        self.down_state += 1
 
     # Idle animation
     if self.change_x == 0:
+      self.jumping = False
+      self.right_state = 0
+      self.left_state = 0
+      self.up_state = 0
+      self.down_state = 0
+      self.cur_texture = 0
       self.texture = self.idle_texture_pair[self.character_face_direction]
       return
 
@@ -174,10 +176,9 @@ class PlayerCharacter(arcade.Sprite):
     self.cur_texture += 1
 
     if self.cur_texture > 7:
-      self.cur_texture = 0
+      self.cur_texture = 3
 
     self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
-
 
 
 
@@ -236,7 +237,7 @@ class MyGame(arcade.Window):
 
     # Keep track of the score
     self.score = 0
-
+    self.command_buffer = ""
     # Create the Sprite lists
     self.player_list = arcade.SpriteList()
     self.background_list = arcade.SpriteList()
@@ -314,7 +315,7 @@ class MyGame(arcade.Window):
 
     # Draw our score on the screen, scrolling it with the viewport
     score_text = f"Score: {self.score}"
-    arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom, arcade.csscolor.BLACK, 18)
+    arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
 
 
 
@@ -326,7 +327,7 @@ class MyGame(arcade.Window):
 
     #
 
-    # self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 
@@ -343,7 +344,7 @@ class MyGame(arcade.Window):
 
     elif self.down_pressed and not self.up_pressed:
 #      if self.physics_engine.is_on_ladder():
-      self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
+      self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED+10)
 
     # Process up/down when on a ladder and no movement
 #    if self.physics_engine.is_on_ladder():
@@ -360,35 +361,120 @@ class MyGame(arcade.Window):
     else:
       self.player_sprite.change_x = 0
 
-
-
   def on_key_press(self, key, modifiers):
-    if key == arcade.key.UP or key == arcade.key.W:
+    if key == arcade.key.UP:
       self.up_pressed = True
 
-    elif key == arcade.key.DOWN or key == arcade.key.S:
+    elif key == arcade.key.DOWN:
       self.down_pressed = True
 
-    elif key == arcade.key.LEFT or key == arcade.key.A:
+    elif key == arcade.key.LEFT:
       self.left_pressed = True
 
-    elif key == arcade.key.RIGHT or key == arcade.key.D:
+    elif key == arcade.key.RIGHT:
       self.right_pressed = True
+
+    if (key == arcade.key.A):
+      self.command_buffer += "A"
+
+    if (key == arcade.key.B):
+      self.command_buffer += "B"
+
+    if (key == arcade.key.C):
+      self.command_buffer += "C"
+
+    if (key == arcade.key.D):
+      self.command_buffer += "D"
+
+    if (key == arcade.key.E):
+      self.command_buffer += "E"
+
+    if (key == arcade.key.F):
+      self.command_buffer += "F"
+
+    if (key == arcade.key.G):
+      self.command_buffer += "G"
+
+    if (key == arcade.key.H):
+      self.command_buffer += "H"
+
+    if (key == arcade.key.I):
+      self.command_buffer += "I"
+
+    if (key == arcade.key.J):
+      self.command_buffer += "J"
+
+    if (key == arcade.key.K):
+      self.command_buffer += "K"
+
+    if (key == arcade.key.L):
+      self.command_buffer += "L"
+
+    if (key == arcade.key.M):
+      self.command_buffer += "M"
+
+    if (key == arcade.key.N):
+      self.command_buffer += "N"
+
+    if (key == arcade.key.O):
+      self.command_buffer += "O"
+
+    if (key == arcade.key.P):
+      self.command_buffer += "P"
+
+    if (key == arcade.key.Q):
+      self.command_buffer += "Q"
+
+    if (key == arcade.key.R):
+      self.command_buffer += "R"
+
+    if (key == arcade.key.S):
+      self.command_buffer += "S"
+
+    if (key == arcade.key.T):
+      self.command_buffer += "T"
+
+    if (key == arcade.key.U):
+      self.command_buffer += "U"
+
+    if (key == arcade.key.V):
+      self.command_buffer += "V"
+
+    if (key == arcade.key.W):
+      self.command_buffer += "W"
+
+    if (key == arcade.key.X):
+      self.command_buffer += "X"
+
+    if (key == arcade.key.Y):
+      self.command_buffer += "Y"
+
+    if (key == arcade.key.Z):
+      self.command_buffer += "Z"
+
+    if(key == arcade.key.SPACE):
+      self.command_buffer += ' '
+
+    if (key == arcade.key.BACKSPACE) and (self.command_buffer):
+      self.command_buffer = self.command_buffer[:-1]
+
+    if len(self.command_buffer) > 50:
+      self.command_buffer = self.command_buffer[0:50]
 
     self.process_keychange()
 
   def on_key_release(self, key, modifiers):
-    if key == arcade.key.UP or key == arcade.key.W:
+    if key == arcade.key.UP:
       self.up_pressed = False
       self.jump_needs_reset = False
 
-    elif key == arcade.key.DOWN or key == arcade.key.S:
+    elif key == arcade.key.DOWN:
       self.down_pressed = False
 
-    elif key == arcade.key.LEFT or key == arcade.key.A:
+    elif key == arcade.key.LEFT:
       self.left_pressed = False
 
-    elif key == arcade.key.RIGHT or key == arcade.key.D:
+    elif key == arcade.key.RIGHT:
       self.right_pressed = False
 
     self.process_keychange()
@@ -497,7 +583,6 @@ class MyGame(arcade.Window):
 
       # Do the scrolling
 #      arcade.set_viewport(self.view_left, SCREEN_WIDTH + self.view_left, self.view_bottom, SCREEN_HEIGHT + self.view_bottom)
-
 
 
 

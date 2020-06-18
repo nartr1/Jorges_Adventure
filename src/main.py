@@ -3,7 +3,7 @@ import arcade
 import os
 from spells import *
 from battle import *
-
+from world_travelling import *
 # Constants
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 650
@@ -44,7 +44,8 @@ LEFT_FACING = 1
 
 
 def main():
-  window = MyGame()
+  #window = Battle()
+  window = World()
   window.setup()
   arcade.run()
 

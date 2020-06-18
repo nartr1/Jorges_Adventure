@@ -7,7 +7,7 @@ from spells import *
 # Constants
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Platformer"
+SCREEN_TITLE = "Fight!"
 
 # Constants used to scale our sprites from their original size
 TILE_SCALING = 0.5
@@ -193,7 +193,7 @@ class PlayerCharacter(arcade.Sprite):
 
 
 
-class MyGame(arcade.Window):
+class Battle(arcade.Window):
 
   def __init__(self):
 
@@ -331,7 +331,7 @@ class MyGame(arcade.Window):
     # Draw hit boxes.
     # for wall in self.wall_list:
     #     wall.draw_hit_box(arcade.color.BLACK, 3)
-#    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 
@@ -344,7 +344,7 @@ class MyGame(arcade.Window):
         self.jump_needs_reset = True
       #arcade.play_sound(self.jump_sound)
 
-    elif self.down_pressed and not self.up_pressed:
+    elif self.down_pressed and not self.up_pressed and not self.left_pressed:
       self.player_sprite.is_down = True
       self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED)
 

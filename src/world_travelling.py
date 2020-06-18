@@ -79,7 +79,7 @@ class PlayerCharacter(arcade.Sprite):
 
     #0.75 of a second
     self.PLAYER_ANIMATION_SPEED = 0.5
-    self.PLAYER_WALKING_ANIMATION_SPEED = 0.5 * self.PLAYER_ANIMATION_SPEED
+    self.PLAYER_WALKING_ANIMATION_SPEED = 0.25 * self.PLAYER_ANIMATION_SPEED
     #Keep track for frame updates for characters
     self.GLOBAL_DELTA_TIME = 0
 
@@ -118,8 +118,7 @@ class PlayerCharacter(arcade.Sprite):
     #(x1, y1), (x2, y2), (x3, y3), (x4, y4)
     self.set_hit_box([[-16,-16], [10,-16], [10,10], [-16,10]])
     #self.set_hit_box(self.texture.hit_box_points)
-
-
+    self.walking_sound = arcade.load_sound("../assets/music/walk.wav")
 
   def update_animation(self, delta_time):
     self.GLOBAL_DELTA_TIME += delta_time
@@ -144,13 +143,15 @@ class PlayerCharacter(arcade.Sprite):
       change_y = 0
       is_idle = True
 
+
     if self.GLOBAL_DELTA_TIME > 1:
       self.GLOBAL_DELTA_TIME = 0
-    #Only update animation every .75 of a second
+
+
     if (self.GLOBAL_DELTA_TIME > self.PLAYER_WALKING_ANIMATION_SPEED) and not is_idle:
+      arcade.play_sound(self.walking_sound)
       self.cur_texture += 1
       self.GLOBAL_DELTA_TIME = 0
-
       if self.cur_texture > 1:
         self.cur_texture = 0
 

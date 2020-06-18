@@ -5,22 +5,19 @@ from spells import *
 from battle import *
 
 # Constants
-SCREEN_WIDTH = 768
-SCREEN_HEIGHT = 650
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 680
 SCREEN_TITLE = "Explore!"
 
 # Constants used to scale our sprites from their original size
-TILE_SCALING = 0.5
-CHARACTER_SCALING = TILE_SCALING * 1.75
+TILE_SCALING = 1
+CHARACTER_SCALING = TILE_SCALING
 COIN_SCALING = TILE_SCALING
 SPRITE_PIXEL_SIZE = 64
 GRID_PIXEL_SIZE = 64  #(SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
-GRAVITY = 0.60
-PLAYER_JUMP_SPEED = 15
-
+PLAYER_MOVEMENT_SPEED = 3
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -66,8 +63,6 @@ class PlayerCharacter(arcade.Sprite):
     self.cur_texture = 0
     self.scale = CHARACTER_SCALING
 
-
-
     # Track our state
     self.jumping = False
     self.climbing = False
@@ -79,45 +74,41 @@ class PlayerCharacter(arcade.Sprite):
     self.up_state = 0
     self.down_state = 0
 
-
-
     # --- Load Textures ---
-    # Images from Kenney.nl's Asset Pack 3
-    # main_path = ":resources:images/animated_characters/female_adventurer/femaleAdventurer"
-    # main_path = ":resources:images/animated_characters/female_person/femalePerson"
-    main_path = ":resources:images/animated_characters/male_person/malePerson"
+#    self.all_textures      = arcade.load_spritesheet("../assets/images/world_jorge/world_jorge{i}.png",32,32,2,2)
 
-    # main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"
-    # main_path = ":resources:images/animated_characters/zombie/zombie"
-    # main_path = ":resources:images/animated_characters/robot/robot"
-
-
-    # Load textures for idle standing
-    self.all_textures      = arcade.load_spritesheet("../assets/images/Jorge_Full.png",32,32,2,2)
-    #self.idle_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Right.png",32,32,2,2)
-    #self.jump_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Up.png",64,64,8,8)
-    #self.down_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Down.png",64,64,8,8)
-    #self.fall_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_HIDEF_Fall.png",64,64,8,8)
-
-
-      # Load textures for walking
-    self.walk_textures = []
-    textures1 = arcade.load_spritesheet("../assets/images/Jorge_HIDEF_Right.png",64,64,8,8)
-    textures2 = arcade.load_spritesheet("../assets/images/Jorge_HIDEF_Left.png",64,64,8,8)
-    for i in range(8):
-#      texture = load_texture_pair(f"{main_path}_walk{i}.png")
-      self.walk_textures.append([textures1[i], textures2[i]])
+    # Load textures for walking
+    self.walk_textures_right = []
+    self.walk_textures_left = []
+    self.walk_textures_down = []
+    self.walk_textures_up = []
+    #Get the right facing walk textures
+    for i in range(1):
+      texture = arcade.load_texture(f"../assets/images/world_jorge/world_jorge_{i}.png")
+      self.walk_textures_right.append(texture)
+    #Left facing textures, textures 2 and 3
+    for i in range(2,4):
+      texture = arcade.load_texture(f"../assets/images/world_jorge/world_jorge_{i}.png")
+      self.walk_textures_left.append(texture)
+    #Down facing textures
+    for i in range(4,6):
+      texture = arcade.load_texture(f"../assets/images/world_jorge/world_jorge_{i}.png")
+      self.walk_textures_down.append(texture)
+    #Up facing textures
+    for i in range(6,8):
+      texture = arcade.load_texture(f"../assets/images/world_jorge/world_jorge_{i}.png")
+      self.walk_textures_up.append(texture)
 
 
     # Set the initial texture
-    self.texture = self.idle_texture_pair[0]
+    self.texture = self.walk_textures_right[0]
 
     # Hit box will be set based on the first image used. If you want to specify
     # a different hit box, you can do it like the code below.
     #Bottom_Left, Bottom_Right, Top_Right, Top_Left
     #(x1, y1), (x2, y2), (x3, y3), (x4, y4)
-    self.set_hit_box([[-30, -32], [19, -32], [20, 16], [-30, 0]])
-    self.set_hit_box(self.texture.hit_box_points)
+    self.set_hit_box([[-16,-16], [10,-16], [10,10], [-16,10]])
+    #self.set_hit_box(self.texture.hit_box_points)
 
 
 
@@ -130,60 +121,38 @@ class PlayerCharacter(arcade.Sprite):
       self.character_face_direction = RIGHT_FACING
 
     if self.change_y > 0:
-      self.texture = self.jump_texture_pair[self.up_state]
-      self.jumping = True
-
-      #self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
-
-      if self.up_state == 7:
-        pass
-      else:
-        self.up_state += 1
+      self.texture = self.walk_textures_up[self.up_state]
       return
-
-    elif self.change_y < 0 and not self.jumping:
-      self.texture = self.down_texture_pair[self.down_state]
+    elif self.change_y < 0:
+      self.texture = self.walk_textures_down[self.down_state]
       #self.set_hit_box([[-30, -32], [19, -32], [20,-20], [0, -20]])
-      if self.down_state == 7:
-        pass
+      if self.down_state == 1:
+        self.down_state = 0
       else:
         self.down_state += 1
       return
-    elif self.change_y < 0 and self.jumping:
-      self.texture = self.fall_texture_pair[self.down_state]
-      #self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
-
-      if self.down_state == 7:
-        pass
-      else:
-        self.down_state += 1
-
     # Idle animation
     if self.change_x == 0:
-      self.jumping = False
       self.right_state = 0
       self.left_state = 0
       self.up_state = 0
       self.down_state = 0
       self.cur_texture = 0
       self.is_down = False
-      self.texture = self.idle_texture_pair[self.character_face_direction]
+      self.texture = self.walk_textures_right[0]
       #self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
       return
 
     # Walking animation
     self.cur_texture += 1
 
-    if self.cur_texture > 7:
-      self.cur_texture = 3
-    #if self.character_face_direction == LEFT_FACING:
-      #self.set_hit_box([[0, -32], [30, -32], [15,10], [-10, 0]])
-    #elif self.character_face_direction == RIGHT_FACING:
-      #self.set_hit_box([[-30, -32], [19, -32], [20,10], [0, 0]])
-
-    self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
-
-
+    if self.cur_texture >= 1:
+      self.cur_texture = 0
+    if self.character_face_direction == LEFT_FACING:
+      self.texture = self.walk_textures_left[self.cur_texture]
+    elif self.character_face_direction == RIGHT_FACING:
+      self.texture = self.walk_textures_right[self.cur_texture]
+    return
 
 class World(arcade.Window):
 
@@ -254,15 +223,11 @@ class World(arcade.Window):
     self.player_sprite.center_y = PLAYER_START_Y
     self.player_list.append(self.player_sprite)
 
-
-
     # --- Load in a map from the tiled editor ---
 
     # Name of the layer in the file that has our platforms/walls
     platforms_layer_name = 'Platforms'
     moving_platforms_layer_name = 'Moving Platforms'
-
-
 
     # Name of the layer that has items for pick-up
     coins_layer_name = 'Coins'
@@ -275,7 +240,7 @@ class World(arcade.Window):
     my_map = arcade.tilemap.read_tmx(map_name)
 
     # Calculate the right edge of the my_map in pixels
-    self.end_of_map = 48 * 33  #my_map.map_size.width * GRID_PIXEL_SIZE
+    self.end_of_map = 32000  #my_map.map_size.width * GRID_PIXEL_SIZE
 
     # -- Platforms
     self.wall_list = arcade.tilemap.process_layer(my_map, "Collision", TILE_SCALING)
@@ -308,19 +273,17 @@ class World(arcade.Window):
     # Clear the screen to the background color
     arcade.start_render()
 
-
-
     # Draw our sprites
-    self.wall_list.draw()
     self.background_list.draw()
     self.background_list2.draw()
+    self.wall_list.draw()
     #self.ladder_list.draw()
     #self.coin_list.draw()
     self.player_list.draw()
 
     # Draw our score on the screen, scrolling it with the viewport
     score_text = f"Score: {self.score}"
-    arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
+    #arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
 
     # Draw hit boxes.
     # for wall in self.wall_list:
@@ -330,22 +293,21 @@ class World(arcade.Window):
 
 
   def process_keychange(self):
-    # Process up/down
-    if self.up_pressed and not self.down_pressed:
+    if self.up_pressed:
         self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-      #arcade.play_sound(self.jump_sound)
-
-    elif self.down_pressed and not self.up_pressed and not self.left_pressed:
-      self.player_sprite.is_down = True
-      self.player_sprite.change_y = -(PLAYER_MOVEMENT_SPEED)
-
-    # Process left/right
-    if self.right_pressed and not self.left_pressed and not (self.player_sprite.is_down):
+        self.player_sprite.change_x = 0
+    elif self.down_pressed:
+      self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
+      self.player_sprite.change_x = 0
+    elif self.right_pressed:
       self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
-    elif self.left_pressed and not self.right_pressed and not (self.player_sprite.is_down):
+      self.player_sprite.change_y = 0
+    elif self.left_pressed:
       self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
+      self.player_sprite.change_y = 0
     else:
       self.player_sprite.change_x = 0
+      self.player_sprite.change_y = 0
 
   def on_key_press(self, key, modifiers):
     if key == arcade.key.UP:
@@ -360,107 +322,11 @@ class World(arcade.Window):
     elif key == arcade.key.RIGHT:
       self.right_pressed = True
 
-    if (key == arcade.key.A):
-      self.command_buffer += "A"
-
-    if (key == arcade.key.B):
-      self.command_buffer += "B"
-
-    if (key == arcade.key.C):
-      self.command_buffer += "C"
-
-    if (key == arcade.key.D):
-      self.command_buffer += "D"
-
-    if (key == arcade.key.E):
-      self.command_buffer += "E"
-
-    if (key == arcade.key.F):
-      self.command_buffer += "F"
-
-    if (key == arcade.key.G):
-      self.command_buffer += "G"
-
-    if (key == arcade.key.H):
-      self.command_buffer += "H"
-
-    if (key == arcade.key.I):
-      self.command_buffer += "I"
-
-    if (key == arcade.key.J):
-      self.command_buffer += "J"
-
-    if (key == arcade.key.K):
-      self.command_buffer += "K"
-
-    if (key == arcade.key.L):
-      self.command_buffer += "L"
-
-    if (key == arcade.key.M):
-      self.command_buffer += "M"
-
-    if (key == arcade.key.N):
-      self.command_buffer += "N"
-
-    if (key == arcade.key.O):
-      self.command_buffer += "O"
-
-    if (key == arcade.key.P):
-      self.command_buffer += "P"
-
-    if (key == arcade.key.Q):
-      self.command_buffer += "Q"
-
-    if (key == arcade.key.R):
-      self.command_buffer += "R"
-
-    if (key == arcade.key.S):
-      self.command_buffer += "S"
-
-    if (key == arcade.key.T):
-      self.command_buffer += "T"
-
-    if (key == arcade.key.U):
-      self.command_buffer += "U"
-
-    if (key == arcade.key.V):
-      self.command_buffer += "V"
-
-    if (key == arcade.key.W):
-      self.command_buffer += "W"
-
-    if (key == arcade.key.X):
-      self.command_buffer += "X"
-
-    if (key == arcade.key.Y):
-      self.command_buffer += "Y"
-
-    if (key == arcade.key.Z):
-      self.command_buffer += "Z"
-
-    if(key == arcade.key.SPACE):
-      self.command_buffer += ' '
-
-    if (key == arcade.key.BACKSPACE) and (self.command_buffer):
-      self.command_buffer = self.command_buffer[:-1]
-
-    if (key == arcade.key.ENTER) and (self.command_buffer):
-      command_works = command_parsing(self.command_buffer)
-      if command_works:
-        print("Success!")
-        self.command_buffer = ""
-      else:
-        #Self damage goes here
-        pass
-    if len(self.command_buffer) > 50:
-      self.command_buffer = self.command_buffer[0:50]
-
     self.process_keychange()
 
   def on_key_release(self, key, modifiers):
     if key == arcade.key.UP:
       self.up_pressed = False
-      self.jump_needs_reset = False
 
     elif key == arcade.key.DOWN:
       self.down_pressed = False
@@ -479,8 +345,6 @@ class World(arcade.Window):
 
     # Update animations
     self.process_keychange()
-
-
 
     self.coin_list.update_animation(delta_time)
     self.background_list.update_animation(delta_time)

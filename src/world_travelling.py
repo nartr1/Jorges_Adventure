@@ -79,7 +79,7 @@ class PlayerCharacter(arcade.Sprite):
 
     #0.75 of a second
     self.PLAYER_ANIMATION_SPEED = 0.5
-
+    self.PLAYER_WALKING_ANIMATION_SPEED = 0.5 * self.PLAYER_ANIMATION_SPEED
     #Keep track for frame updates for characters
     self.GLOBAL_DELTA_TIME = 0
 
@@ -123,16 +123,7 @@ class PlayerCharacter(arcade.Sprite):
 
   def update_animation(self, delta_time):
     self.GLOBAL_DELTA_TIME += delta_time
-
-    if self.GLOBAL_DELTA_TIME > 1:
-      self.GLOBAL_DELTA_TIME = 0
-    #Only update animation every .75 of a second
-    if self.GLOBAL_DELTA_TIME > self.PLAYER_ANIMATION_SPEED:
-      self.cur_texture += 1
-      self.GLOBAL_DELTA_TIME = 0
-
-      if self.cur_texture > 1:
-        self.cur_texture = 0
+    is_idle = False
 
     change_x = 0
     change_y = 0
@@ -151,6 +142,23 @@ class PlayerCharacter(arcade.Sprite):
     else:
       change_x = 0
       change_y = 0
+      is_idle = True
+
+    if self.GLOBAL_DELTA_TIME > 1:
+      self.GLOBAL_DELTA_TIME = 0
+    #Only update animation every .75 of a second
+    if (self.GLOBAL_DELTA_TIME > self.PLAYER_WALKING_ANIMATION_SPEED) and not is_idle:
+      self.cur_texture += 1
+      self.GLOBAL_DELTA_TIME = 0
+
+      if self.cur_texture > 1:
+        self.cur_texture = 0
+
+    elif self.GLOBAL_DELTA_TIME > self.PLAYER_ANIMATION_SPEED:
+      self.cur_texture += 1
+      self.GLOBAL_DELTA_TIME = 0
+      if self.cur_texture > 1:
+        self.cur_texture = 0
 
     if change_y > 0:
       self.texture = self.walk_textures_up[self.cur_texture]
@@ -164,14 +172,8 @@ class PlayerCharacter(arcade.Sprite):
       self.left_state = 0
       self.up_state = 0
       self.down_state = 0
-      self.cur_texture = 0
       self.is_down = False
-      alternate = 0
-      if alternate:
-        alternate = 0
-      else:
-        alternate = 1
-      self.texture = self.walk_textures_right[0]
+      self.texture = self.walk_textures_right[self.cur_texture]
       return
 
     # Walking animation
@@ -309,7 +311,7 @@ class World(arcade.Window):
     # Draw hit boxes.
     #for wall in self.wall_list:
     #    wall.draw_hit_box(arcade.color.BLACK, 3)
-    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+    #self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 

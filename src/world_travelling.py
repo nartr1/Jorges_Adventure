@@ -93,10 +93,11 @@ class PlayerCharacter(arcade.Sprite):
 
 
     # Load textures for idle standing
-    self.idle_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Right.png",32,32,2,2)
-    self.jump_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Up.png",64,64,8,8)
-    self.down_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Down.png",64,64,8,8)
-    self.fall_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_HIDEF_Fall.png",64,64,8,8)
+    self.all_textures      = arcade.load_spritesheet("../assets/images/Jorge_Full.png",32,32,2,2)
+    #self.idle_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Right.png",32,32,2,2)
+    #self.jump_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Up.png",64,64,8,8)
+    #self.down_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_Down.png",64,64,8,8)
+    #self.fall_texture_pair = arcade.load_spritesheet("../assets/images/Jorge_HIDEF_Fall.png",64,64,8,8)
 
 
       # Load textures for walking
@@ -106,15 +107,6 @@ class PlayerCharacter(arcade.Sprite):
     for i in range(8):
 #      texture = load_texture_pair(f"{main_path}_walk{i}.png")
       self.walk_textures.append([textures1[i], textures2[i]])
-
-
-    # Load textures for climbing
-    self.climbing_textures = []
-    texture = arcade.load_texture(f"{main_path}_climb0.png")
-    self.climbing_textures.append(texture)
-    texture = arcade.load_texture(f"{main_path}_climb1.png")
-    self.climbing_textures.append(texture)
-
 
 
     # Set the initial texture

@@ -123,7 +123,7 @@ class PlayerCharacter(arcade.Sprite):
   def update_animation(self, delta_time):
     self.GLOBAL_DELTA_TIME += delta_time
     is_idle = False
-
+    #arcade.play_sound(self.walking_sound)
     change_x = 0
     change_y = 0
     if self.center_x < self.last_coordinates[0]:

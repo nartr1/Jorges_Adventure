@@ -12,10 +12,10 @@ class Spell(arcade.Sprite):
   the arcade library's "Sprite" class.
   """
   #If both of these are zero, the sprite stays still
-  follows_player = 0
+  follows_player = 1
   follows_enemy = 0
   follow_target = 0
-  follows_mouse = 1
+  follows_mouse = 0
   spawn_above = 0
   spawn_below = 0
 

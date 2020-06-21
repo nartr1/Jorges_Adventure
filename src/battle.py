@@ -454,8 +454,8 @@ class Battle(arcade.Window):
     self.wall_list.draw()
     self.background_list.draw()
     self.coin_list.draw()
-    self.spell_list.draw()
     self.player_list.draw()
+    self.spell_list.draw()
 
     # Draw our command buffer
     arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
@@ -541,6 +541,17 @@ class Battle(arcade.Window):
         spell.spawn_below(spell.spell_target, spell.spell_speed)
       else:
         spell.move_to_target(self.player_sprite, [self.mouse_x, self.mouse_y], 10)
+
+
+    for spell in self.spell_list:
+      walls_hit = arcade.check_for_collision_with_list(spell, self.wall_list)
+      for wall in walls_hit:
+        if spell.change_x > 0:
+          spell.right = wall.left
+        elif spell.change_x < 0:
+          spell.left = wall.right
+        if len(walls_hit) > 0:
+          spell.change_x *= -1
 
     self.spell_list.update_animation(delta_time)
 

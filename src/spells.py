@@ -15,8 +15,12 @@ class Spell(arcade.Sprite):
   follows_player = 0
   follows_enemy = 0
   follow_target = 0
+  follows_mouse = 1
   spawn_above = 0
   spawn_below = 0
+
+  #Sprite will die if it touches a wall
+  collides_with_walls = 0
 
   #State can be 0,1,or 2. This is to keep track of whichanimation set we're using
   state = 0
@@ -121,6 +125,10 @@ def parse_command_string(p_action, p_spell, p_target, p_enemy_name):
 def get_spell_object(spellname, player_coordinates):
 
   this_spell = Spell(":resources:images/items/coinGold.png", 1)
+
+  #get_spell_properties
+  #get_spell_animations
+  #get_spell_origin
 
   this_spell.center_x = player_coordinates[0]
   this_spell.center_y = player_coordinates[1]

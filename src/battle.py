@@ -693,7 +693,6 @@ class Battle(arcade.Window):
         print("Success!")
         #Get our spell instance
         active_spell = spells.get_spell_object(spell_name, [self.player_sprite.center_x, self.player_sprite.center_y])
-        active_spell.follows_mouse = 1
         self.spell_list.append(active_spell)
         self.command_buffer = ""
       else:

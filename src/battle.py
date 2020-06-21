@@ -76,8 +76,6 @@ class PlayerCharacter(arcade.Sprite):
     self.up_state = 0
     self.down_state = 0
 
-
-
     # --- Load Textures ---
     # Images from Kenney.nl's Asset Pack 3
     # main_path = ":resources:images/animated_characters/female_adventurer/femaleAdventurer"
@@ -123,8 +121,6 @@ class PlayerCharacter(arcade.Sprite):
     #(x1, y1), (x2, y2), (x3, y3), (x4, y4)
     #self.set_hit_box([[-30, -32], [19, -32], [20, 16], [-30, 0]])
     #self.set_hit_box(self.texture.hit_box_points)
-
-
 
   def update_animation(self, delta_time: float = 1/60):
 
@@ -263,8 +259,6 @@ class EnemyCharacter(arcade.Sprite):
     #self.set_hit_box([[-30, -32], [19, -32], [20, 16], [-30, 0]])
     #self.set_hit_box(self.texture.hit_box_points)
 
-
-
   def update_animation(self, delta_time: float = 1/60):
 
     # Figure out if we need to flip face left or right
@@ -354,6 +348,10 @@ class Battle(arcade.Window):
     self.spell_list = None
     self.player_list = None
 
+    #For spell targetting using the mouse
+    self.mouse_x = 0
+    self.mouse_y = 0
+
     # Separate variable that holds the player sprite
     self.player_sprite = None
 
@@ -373,6 +371,9 @@ class Battle(arcade.Window):
     self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
     self.game_over = arcade.load_sound(":resources:sounds/gameover1.wav")
 
+  def on_mouse_motion(self, x, y, dx, dy):
+    self.mouse_x = x
+    self.mouse_y = y
 
 
   def setup(self):
@@ -462,7 +463,7 @@ class Battle(arcade.Window):
     # Draw hit boxes.
     # for wall in self.wall_list:
     #     wall.draw_hit_box(arcade.color.BLACK, 3)
-    self.player_sprite.draw_hit_box(arcade.color.RED, 3)
+    #self.player_sprite.draw_hit_box(arcade.color.RED, 3)
 
 
 
@@ -519,8 +520,35 @@ class Battle(arcade.Window):
     self.process_keychange()
 
     self.coin_list.update_animation(delta_time)
+
+
+    #Our spell control on the screen
+    for spell in self.spell_list:
+
+      if spell.follows_player:
+        spell.follow_sprite(self.player_sprite, 10)
+
+      elif spell.follows_enemy:
+        spell.follow_sprite(self.enemy_sprite, 10)
+
+      elif spell.follows_mouse:
+        spell.follow_target([self.mouse_x,self.mouse_y])
+
+      elif spell.spawn_above:
+        spell.spawn_above(spell.spell_target, spell.spell_speed)
+
+      elif spell.spawn_below:
+        spell.spawn_below(spell.spell_target, spell.spell_speed)
+      else:
+        spell.move_to_target(self.player_sprite, [self.mouse_x, self.mouse_y], 10)
+
+    self.spell_list.update_animation(delta_time)
+
     self.background_list.update_animation(delta_time)
     self.player_list.update_animation(delta_time)
+
+    player_hit_list = arcade.check_for_collision(self.player_sprite, self.enemy_sprite)
+    enemy_hit_list = arcade.check_for_collision_with_list(self.enemy_sprite, self.spell_list)
 
     # Update walls, used with moving platforms
     self.wall_list.update()
@@ -664,9 +692,9 @@ class Battle(arcade.Window):
         print(spell_name)
         print("Success!")
         #Get our spell instance
-        active_spell = spells.Spell()
-        active_spell.setup(spell_name, self.player_sprite, self.enemy_sprite)
-        self.spell_list.append(active_spell.sprite)
+        active_spell = spells.get_spell_object(spell_name, [self.player_sprite.center_x, self.player_sprite.center_y])
+        active_spell.follows_mouse = 1
+        self.spell_list.append(active_spell)
         self.command_buffer = ""
       else:
         #Self damage goes here

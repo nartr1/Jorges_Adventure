@@ -1,120 +1,110 @@
 #! /usr/bin/python3
 import arcade
 from battle import *
+import math
 
 SPELLPATH = "spells/"
 
-
 class Spell(arcade.Sprite):
 
-  def __init__(self):
-    super().__init__()
-    self.is_player = 1
-    #We parse this out for form our spell
-    self.command = ""
-    player = 0
-    enemy = 0
-    command = 0
-    self.cur_texture = 0
-    self.damage_enemy = 0
-    self.sprite_size = []
-    #Where we store the sprite for our spell
-    self.sprite = ""
-    self.sprite1 = []
-    self.sprite2 = []
-    self.sprite3 = []
-    #0 for casting, 1 for flying, 2 for on hit
-    self.state = 0
-    #How many frames each state takes up
-    self.frame_range = []
-    #3 sets of coordinates, one for each state [[][][]]
-    self.hitboxes = []
-    #Used for finding the correct spritesheet
-    self.spellname = ""
-    self.scale = 1
-    self.spell_path = ""
-    #Used for specific targetting
-    self.x_offset = 0
-    self.y_offset = 0
-    #3 floats, one for each state
-    self.frame_times = []
+  """
+  This class represents the spells on our screen. It is a child class of
+  the arcade library's "Sprite" class.
+  """
+  #If both of these are zero, the sprite stays still
+  follows_player = 0
+  follows_enemy = 0
+  follow_target = 0
+  spawn_above = 0
+  spawn_below = 0
 
-    #Tells us which particle effects we need
-    self.effects= []
+  #State can be 0,1,or 2. This is to keep track of whichanimation set we're using
+  state = 0
 
-    self.scale = 0
-    self.change_x = 0
-    self.change_y = 0
+  #Animation states keep track of our frame
+  animation_state = 0
 
-  def setup(self, spellname, player, enemy):
-    self.spellname = spellname
-    if not self.is_player:
-      # Position the start at the enemy's current location
-      start_x = enemy.center_x
-      start_y = enemy.center_y
+  #These sets holds our animation frames
+  animation_set1 = []
+  animation_set2 = []
+  animation_set3 = []
 
-      # Get the destination location for the bullet
-      dest_x = player.center_x
-      dest_y = player.center_y
-    else:
-      # Position the start at the enemy's current location
-      start_x = player.center_x
-      start_y = player.center_y
+  #Tells us when to kill off the sprite, -1 means it lives until the battle ends, 0 means it's dead, anything else is a countdown timer
+  time_to_die = -1
 
-      # Get the destination location for the bullet
-      dest_x = enemy.center_x
-      dest_y = enemy.center_y
-
-    self.spellpath = get_spell(self.spellname)
-    self.get_spell_properties()
+  #Where the spell is fired from
+  spell_origin = 0
+  #Target will be used to determine where the spell is going
+  spell_target = 0
+  #How fast the spell moves towards the target
+  spell_speed  = 10
 
 
-  #Combines the above functions to populate our spell
-  def get_spell_properties(self):
-    #get_sprite_size(spellname)
-    attributes = []
-    f = open(self.spellpath + "/properties", "r").readlines()
-    for attribute in f:
-      attributes.append(attribute.strip())
-    #print(attributes)
+  def follow_sprite(self, player_sprite, SPRITE_SPEED):
 
-    #self.sprite_size = attributes[0].split()
+    """
+    This function will move the current sprite towards whatever
+    other sprite is specified as a parameter.
+    We use the 'min' function here to get the sprite to line up with
+    the target sprite, and not jump around if the sprite is not off
+    an exact multiple of SPRITE_SPEED.
+    """
+    if self.center_y < player_sprite.center_y:
+      self.center_y += min(SPRITE_SPEED, player_sprite.center_y - self.center_y)
+    elif self.center_y > player_sprite.center_y:
+      self.center_y -= min(SPRITE_SPEED, self.center_y - player_sprite.center_y)
 
-    self.frame_range.append(list(map(int, attributes[1].split() )))
-    self.frame_range.append(list(map(int, attributes[2].split() )))
-    self.frame_range.append(list(map(int, attributes[3].split() )))
-    #print(self.frame_range)
 
-    self.hitboxes.append(list(map(int, attributes[4].split() )))
-    self.hitboxes.append(list(map(int, attributes[5].split() )))
-    self.hitboxes.append(list(map(int, attributes[6].split() )))
-    #print(self.hitboxes)
+    if self.center_x < player_sprite.center_x:
+      self.center_x += min(SPRITE_SPEED, player_sprite.center_x - self.center_x)
+    elif self.center_x > player_sprite.center_x:
+      self.center_x -= min(SPRITE_SPEED, self.center_x - player_sprite.center_x)
 
-    self.sprite_size.append(list(map(int, attributes[7].split() )))
-    self.sprite_size.append(list(map(int, attributes[8].split() )))
-    self.sprite_size.append(list(map(int, attributes[9].split() )))
-    print(self.sprite_size)
 
-    #print(self.frame_range[0][1] - self.frame_range[0][0]+1)
+  def follow_target(self, target):
+    if self.center_y < target[1]:
+      self.center_y += min(self.spell_speed, target[1] - self.center_y)
+    elif self.center_y > target[1]:
+      self.center_y -= min(self.spell_speed, self.center_y - target[1])
 
-    for i in range(self.frame_range[0][0],self.frame_range[0][1]):
-      if i < 10:
-        self.sprite1.append(arcade.load_texture(self.spellpath+'/'+self.spellname+"_0"+str(i)+".png"))
-      else:
-        self.sprite1.append(arcade.load_texture(self.spellpath+'/'+self.spellname+"_"+str(i)+".png"))
 
-#    print(self.sprite1)
-    #self.texture = self.sprite1
-    #sprite2 = load_spritesheet(spellname+".png", )
-    #get_spell_effects(spellname)
-    #get_sprite_from_name(spellname)
+    if self.center_x < target[0]:
+      self.center_x += min(self.spell_speed, target[0] - self.center_x)
+    elif self.center_x > target[0]:
+      self.center_x -= min(self.spell_speed, self.center_x - target[0])
+
+
+  def move_to_target(self, player_sprite, target, speed):
+    x_diff = target[0] - player_sprite.center_x
+    y_diff = target[1] - player_sprite.center_y
+    angle = math.atan2(y_diff, x_diff)
+
+    # Taking into account the angle, calculate our change_x
+    # and change_y. Velocity is how fast the bullet travels.
+    self.change_x = math.cos(angle) * speed
+    self.change_y = math.sin(angle) * speed
+
+    self.center_x = self.center_x + self.change_x
+    self.center_y = self.center_y + self.change_y
+
+
+  #When the sprite needs to appear above or below the target
+  def spawn_below(self, target, speed):
+    self.center_x = target[0]
+    self.center_y = target[1] - 50
     pass
 
-  def collision(self):
+  def spawn_above(self, target, speed):
+    self.center_x = target[0]
+    self.center_y = target[1] + 50
     pass
 
-  #How we are updating our frames every 1/60th of a second
-  def update(self, delta_time):
+  #Takes time, kills off the sprite when the time is right
+  def die_in(current_time, time_to_die):
+    pass
+
+  #This tells us what animations to play when we hit something
+  def on_collide():
     pass
 
 def parse_command_string(p_action, p_spell, p_target, p_enemy_name):
@@ -123,8 +113,18 @@ def parse_command_string(p_action, p_spell, p_target, p_enemy_name):
   else:
     return p_spell #For now just have it execute no matter what
 #    return False
-
   pass
+
+###############################################################################################################################
+#Setting of the spell properties and attributes go in here
+###############################################################################################################################
+def get_spell_object(spellname, player_coordinates):
+
+  this_spell = Spell(":resources:images/items/coinGold.png", 1)
+
+  this_spell.center_x = player_coordinates[0]
+  this_spell.center_y = player_coordinates[1]
+  return this_spell
 
 def get_command_string():
   return input("Please enter an action: ")

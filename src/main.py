@@ -7,8 +7,8 @@ from world_travelling import *
 
 
 def main():
- # window = Battle()
-  window = World()
+  window = Battle()
+  #window = World()
   window.setup()
   arcade.run()
 

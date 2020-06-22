@@ -464,7 +464,9 @@ class Battle(arcade.Window):
     # for wall in self.wall_list:
     #     wall.draw_hit_box(arcade.color.BLACK, 3)
     #self.player_sprite.draw_hit_box(arcade.color.RED, 3)
-
+    #Draw all of our spell hitboxes for testing
+    for spell in self.spell_list:
+      spell.draw_hit_box(arcade.color.RED, 3)
 
 
   def process_keychange(self):
@@ -535,23 +537,19 @@ class Battle(arcade.Window):
         spell.follow_target([self.mouse_x,self.mouse_y])
 
       elif spell.spawn_above:
-        spell.spawn_above(spell.spell_target, spell.spell_speed)
+        spell.spawn_above(spell.spell_target, spell.spell_speed, spell.distance)
 
       elif spell.spawn_below:
-        spell.spawn_below(spell.spell_target, spell.spell_speed)
+        spell.spawn_below(spell.spell_target, spell.spell_speed, spell.distance)
       else:
-        spell.move_to_target(self.player_sprite, [self.mouse_x, self.mouse_y], 10)
+        spell.move_to_target(self.player_sprite, [800, 432], 10)
 
 
     for spell in self.spell_list:
       walls_hit = arcade.check_for_collision_with_list(spell, self.wall_list)
       for wall in walls_hit:
-        if spell.change_x > 0:
-          spell.right = wall.left
-        elif spell.change_x < 0:
-          spell.left = wall.right
-        if len(walls_hit) > 0:
-          spell.change_x *= -1
+        print("Spell hit a wall!")
+        spell.on_collision()
 
     self.spell_list.update_animation(delta_time)
 
@@ -563,8 +561,8 @@ class Battle(arcade.Window):
 
     # Update walls, used with moving platforms
     self.wall_list.update()
-    # See if the moving wall hit a boundary and needs to reverse direction.
 
+    # See if the moving wall hit a boundary and needs to reverse direction.
     for wall in self.wall_list:
       if wall.boundary_right and wall.right > wall.boundary_right and wall.change_x > 0:
         wall.change_x *= -1
@@ -703,11 +701,13 @@ class Battle(arcade.Window):
         print(spell_name)
         print("Success!")
         #Get our spell instance
-        active_spell = spells.get_spell_object(spell_name, [self.player_sprite.center_x, self.player_sprite.center_y])
+        active_spell = spells.get_spell_object(spell_name, [self.player_sprite.center_x, self.player_sprite.center_y], [self.enemy_sprite.center_x, self.enemy_sprite.center_y], "player")
+        active_spell.set_hit_box(active_spell.initial_hitbox)
         self.spell_list.append(active_spell)
         self.command_buffer = ""
       else:
         #Self damage goes here
+        self.command_buffer = "oailsdhjfkljh aslkdfgbaHBWKEHJbdDLKHJKJHASKDF jhbkjhAKSJDHBKJB"
         pass
     if len(self.command_buffer) > 50:
       self.command_buffer = self.command_buffer[0:50]

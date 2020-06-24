@@ -2,6 +2,7 @@
 import arcade
 from battle import *
 import math
+import ast
 
 SPELLPATH = "spells/"
 
@@ -204,6 +205,9 @@ def get_spell_object(spellname, player_coordinates, enemy_coordinates, caster):
   this_spell = Spell()
   this_spell.spell_path = spell_path
   this_spell.spell_name = spellname
+
+  get_spell_properties(this_spell, spell_path)
+
   get_spell_animations(this_spell)
   print(this_spell.spawn_above)
   #get_spell_properties
@@ -220,8 +224,6 @@ def get_spell_object(spellname, player_coordinates, enemy_coordinates, caster):
     this_spell.spell_caster = "enemy"
     this_spell.target = player_coordinates
 
-  get_spell_properties(this_spell, spell_path)
-
   this_spell.follows_mouse = 1
   this_spell.collides_with_walls = 1
   this_spell.center_x = player_coordinates[0]
@@ -237,21 +239,49 @@ def get_spell_properties(spell_object, spell_path):
       (key, val) = line.split()
       properties[key] = val
 
-  spell_object.animation_size1 = properties["framesize1"]
-  spell_object.animation_length1 = properties["numframes1"]
-  spell_object.animation_speed1 = properties["playbackspeed1"]
+  spell_object.animation_size1 = int(properties["framesize1"])
+  spell_object.animation_length1 = int(properties["numframes1"])
+  spell_object.animation_speed1 = int(properties["playbackspeed1"])
 
-  spell_object.animation_size2 = properties["framesize2"]
-  spell_object.animation_length2 = properties["numframes2"]
-  spell_object.animation_speed2 = properties["playbackspeed2"]
+  spell_object.animation_size2 = int(properties["framesize2"])
+  spell_object.animation_length2 = int(properties["numframes2"])
+  spell_object.animation_speed2 = int(properties["playbackspeed2"])
 
-  spell_object.animation_size3 = properties["framesize3"]
-  spell_object.animation_length3 = properties["numframes3"]
-  spell_object.animation_speed3 = properties["playbackspeed3"]
+  spell_object.animation_size3 = int(properties["framesize3"])
+  spell_object.animation_length3 = int(properties["numframes3"])
+  spell_object.animation_speed3 = int(properties["playbackspeed3"])
   #Add the rest of the properties here###########################################################################################################################
 
+  spell_object.hitbox1 = ast.literal_eval(properties["hitbox1"])
+  spell_object.hitbox2 = ast.literal_eval(properties["hitbox2"])
+  spell_object.hitbox3 = ast.literal_eval(properties["hitbox3"])
 
-  print(properties)
+  spell_object.movement_type1 = int(properties["movementtype1"])
+  spell_object.movement_type2 = int(properties["movementtype2"])
+  spell_object.movement_type3 = int(properties["movementtype3"])
+
+  spell_object.base_rotation = int(properties["baserotation"])
+  spell_object.rotation1 = int(properties["rotation1"])
+  spell_object.rotation1 = int(properties["rotation2"])
+  spell_object.rotation1 = int(properties["rotation3"])
+
+  spell_object.casting_time = int(properties["castingtime"])
+  spell_object.casted_time = int(properties["castedtime"])
+  spell_object.hit_time = int(properties["hittime"])
+
+  spell_object.damage_on_hit = int(properties["damage"])
+  spell_object.element = properties["element"]
+
+  spell_object.collides_with_walls = int(properties["collides"])
+  spell_object.difficulty = int(properties["difficulty"])
+
+  spell_object.distance = int(properties["distance"])
+  spell_object.speed = int(properties["speed"])
+
+  spell_object.spawn_on_player = int(properties["spawn_on_player"])
+  spell_object.spawn_on_enemy = int(properties["spawn_on_enemy"])
+
+  spell_object.spell_game = properties["spellgame"]
 
 def get_command_string():
   return input("Please enter an action: ")
@@ -313,39 +343,15 @@ def get_spell_animations(spell_object):
 
 #Animation for the casting effect
 def get_anim_state1(spell_object):
-  path = spell_object.spell_path
-  #Get sprite size and length
-  f = open(path+"/casting_properties", "r").readlines()
-  spell_object.animation_size1 = int(f[0].strip())
-  spell_object.animation_length1 = int(f[1].strip())
-  spell_object.animation_speed1 = int(f[2].strip())
-
-  #get the actual spritesheet
-  spell_object.animation_set1 = arcade.load_spritesheet(path+'/'+spell_object.spell_name + "_casting.png", spell_object.animation_size1, spell_object.animation_size1,spell_object.animation_length1,spell_object.animation_length1)
+  spell_object.animation_set1 = arcade.load_spritesheet(spell_object.spell_path+'/'+spell_object.spell_name + "_casting.png", spell_object.animation_size1, spell_object.animation_size1,spell_object.animation_length1,spell_object.animation_length1)
 
 #Animation for the flying/intermediate effect
 def get_anim_state2(spell_object):
-  path = spell_object.spell_path
-  #Get sprite size and length
-  f = open(path+"/casted_properties", "r").readlines()
-  spell_object.animation_size2 = int(f[0].strip())
-  spell_object.animation_length2 = int(f[1].strip())
-  spell_object.animation_speed2 = int(f[2].strip())
-
-  #get the actual spritesheet
-  spell_object.animation_set2 = arcade.load_spritesheet(path+'/'+spell_object.spell_name + "_casted.png", spell_object.animation_size2, spell_object.animation_size2,spell_object.animation_length2,spell_object.animation_length2)
+  spell_object.animation_set2 = arcade.load_spritesheet(spell_object.spell_path+'/'+spell_object.spell_name + "_casted.png", spell_object.animation_size2, spell_object.animation_size2,spell_object.animation_length2,spell_object.animation_length2)
 
 #Animation for the hit effects
 def get_anim_state3(spell_object):
-  path = spell_object.spell_path
-  #Get sprite size and length
-  f = open(path+"/hit_properties", "r").readlines()
-  spell_object.animation_size3 = int(f[0].strip())
-  spell_object.animation_length3 = int(f[1].strip())
-  spell_object.animation_speed3 = int(f[2].strip())
-
-  #get the actual spritesheet
-  spell_object.animation_set3 = arcade.load_spritesheet(path+'/'+spell_object.spell_name + "_hit.png", spell_object.animation_size3, spell_object.animation_size3,spell_object.animation_length3,spell_object.animation_length3)
+  spell_object.animation_set3 = arcade.load_spritesheet(spell_object.spell_path+'/'+spell_object.spell_name + "_hit.png", spell_object.animation_size3, spell_object.animation_size3,spell_object.animation_length3,spell_object.animation_length3)
 
 #Find index of the action
 def get_action(action):

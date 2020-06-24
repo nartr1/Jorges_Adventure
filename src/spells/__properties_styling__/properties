@@ -1,4 +1,7 @@
 followtype(goto, follow_sprite, follow_player, spawn_above) will be a number
-other effects, also a number
-
+damage
+element
+casting time (how long before we swap to the next animation state)
+casted time
+hit time
 

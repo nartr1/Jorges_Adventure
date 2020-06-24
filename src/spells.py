@@ -13,6 +13,16 @@ class Spell(arcade.Sprite):
     self.scaling = 1
     self.texture = None
 
+    #The element type of the spell, changes effectiveness of the spell
+    self.element = ""
+
+    #The pattern we throw at the player if they cast a spell, determines spell effectiveness
+    #Uses asdf for keys to play, must be hit in the correct order otherwise effectiveness drops by 5%
+    self.spellgame = ""
+
+    #Determines the damage and if there are target offset or not
+    self.spell_effectiveness = 1
+
     ###From Game###
     #This holds the spells directory
     self.spell_path = ""
@@ -30,6 +40,10 @@ class Spell(arcade.Sprite):
     #How fast the spell moves towards the target
     self.spell_speed  = 10
 
+    #Timings for the animations
+    self.casting_time = 1
+    self.casted_time = 0
+    self.hit_time = 0
     #Just a basic square for testing and spawning in
     self.initial_hitbox = [[-10, -10], [10, -10], [10, 10], [-10, 10]]
     ###Movement###
@@ -41,8 +55,21 @@ class Spell(arcade.Sprite):
     self.spawn_above = 0
     self.spawn_below = 0
 
+    #Helps us track which movement type occurs during each stage
+    self.movement_type1 = 0
+    self.movement_type2 = 0
+    self.movement_type3 = 0
+
     #Distance used when spawning the spell object
     self.distance = 0
+
+    #The angle that the normal texture shows up as
+    self.base_rotation = 0
+
+    #The rotation of the sprite, postive is clockwise, negative is counter-clockwise.
+    self.rotation1 = 0
+    self.rotation2 = 0
+    self.rotation3 = 0
 
     ###Properties###
     #How many hearts the target loses on hit from the spell, the caster is immune to this
@@ -57,7 +84,7 @@ class Spell(arcade.Sprite):
     self.hitbox3 = []
 
     ###Animation###
-    #State can be 0,1,or 2. This is to keep track of whichanimation set we're using
+    #State can be 0,1,or 2. This is to keep track of which animation set we're using
     self.state = 0
 
     #Animation states keep track of our frame
@@ -85,6 +112,11 @@ class Spell(arcade.Sprite):
 
     #Tells us when to kill off the sprite, -1 means it lives until the battle ends, 0 means it's dead, anything else is a countdown timer
     self.time_to_die = -1
+
+  #Might move in the future, but this is called after the spell object is set up.
+  #Runes pop up in 1 of the four lanes, user must hit the keys associated with each lane in the right order to cast the spell
+  def play_spellgame(self):
+    pass
 
     #Movement type 0
   def follow_sprite(self, player_sprite, SPRITE_SPEED):
@@ -141,12 +173,15 @@ class Spell(arcade.Sprite):
     self.center_y = target[1] - distance
     pass
 
-  #Movement type4
+  #Movement type 4
   def spawn_above(self, target, speed, distance):
     self.center_x = target[0]
     self.center_y = target[1] + distance
     pass
-
+  #Movement type 5
+  def dont_move(self):
+    self.center_y = self.center_x
+    self.center_y = self.center_y
   #Takes time, kills off the sprite when the time is right
   def die_in(self, current_time, time_to_die):
     if current_time + time_to_die == current_time:
@@ -176,9 +211,8 @@ def get_spell_object(spellname, player_coordinates, enemy_coordinates, caster):
     #movement type
     #collides_with_walls
     #difficulty (Used for the casting minigame)
-  #Testing hitboxes
+
   #get_spell_origin
-  #get_spell_target
   if caster == "player":
     this_spell.spell_caster = "player"
     this_spell.target = enemy_coordinates
@@ -186,7 +220,8 @@ def get_spell_object(spellname, player_coordinates, enemy_coordinates, caster):
     this_spell.spell_caster = "enemy"
     this_spell.target = player_coordinates
 
-  #get_spell_path_type
+  get_spell_properties(this_spell, spell_path)
+
   this_spell.follows_mouse = 1
   this_spell.collides_with_walls = 1
   this_spell.center_x = player_coordinates[0]
@@ -194,6 +229,29 @@ def get_spell_object(spellname, player_coordinates, enemy_coordinates, caster):
   return this_spell
 
 
+def get_spell_properties(spell_object, spell_path):
+  properties = {}
+
+  with open(spell_path+"/"+"properties") as f:
+    for line in f:
+      (key, val) = line.split()
+      properties[key] = val
+
+  spell_object.animation_size1 = properties["framesize1"]
+  spell_object.animation_length1 = properties["numframes1"]
+  spell_object.animation_speed1 = properties["playbackspeed1"]
+
+  spell_object.animation_size2 = properties["framesize2"]
+  spell_object.animation_length2 = properties["numframes2"]
+  spell_object.animation_speed2 = properties["playbackspeed2"]
+
+  spell_object.animation_size3 = properties["framesize3"]
+  spell_object.animation_length3 = properties["numframes3"]
+  spell_object.animation_speed3 = properties["playbackspeed3"]
+  #Add the rest of the properties here###########################################################################################################################
+
+
+  print(properties)
 
 def get_command_string():
   return input("Please enter an action: ")

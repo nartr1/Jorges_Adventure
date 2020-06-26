@@ -7,11 +7,11 @@ from world_travelling import *
 
 
 def main():
-  window = Battle()
-  #window = World()
-  window.setup()
-  arcade.run()
+    window = Battle()
+    # window = World()
+    window.setup()
+    arcade.run()
 
 
 if __name__ == "__main__":
-  main()
+    main()

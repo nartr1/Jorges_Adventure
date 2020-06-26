@@ -238,6 +238,7 @@ def get_spell_properties(spell_object, spell_path):
             (key, val) = line.split()
             properties[key] = val
 
+    #Possibly going to migrate this to json or yaml and use in a python3 dataclass, need to play around with it first
     spell_object.animation_size1 = int(properties["framesize1"])
     spell_object.animation_length1 = int(properties["numframes1"])
     spell_object.animation_speed1 = int(properties["playbackspeed1"])
@@ -249,7 +250,6 @@ def get_spell_properties(spell_object, spell_path):
     spell_object.animation_size3 = int(properties["framesize3"])
     spell_object.animation_length3 = int(properties["numframes3"])
     spell_object.animation_speed3 = int(properties["playbackspeed3"])
-    # Add the rest of the properties here###########################################################################################################################
 
     spell_object.hitbox1 = ast.literal_eval(properties["hitbox1"])
     spell_object.hitbox2 = ast.literal_eval(properties["hitbox2"])

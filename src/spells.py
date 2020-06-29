@@ -3,6 +3,7 @@ import arcade
 from battle import *
 import math
 import ast
+import os
 
 SPELLPATH = "spells/"
 
@@ -40,6 +41,8 @@ class Spell(arcade.Sprite):
         self.spell_target = 0
         # How fast the spell moves towards the target
         self.spell_speed = 10
+
+        self.GLOBAL_DELTA = 0
 
         # Timings for the animations
         self.casting_time = 1
@@ -193,6 +196,13 @@ class Spell(arcade.Sprite):
     def on_collision(self,):
         if self.collides_with_walls:
             self.remove_from_sprite_lists()
+        pass
+
+    def update_animation(self, delta_time: float = 1/60):
+        self.GLOBAL_DELTA += delta_time
+        if self.GLOBAL_DELTA > 1:
+            self.GLOBAL_DELTA = 0
+
         pass
 
 

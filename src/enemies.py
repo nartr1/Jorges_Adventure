@@ -24,6 +24,10 @@ class EnemyCharacter(arcade.Sprite):
         print(enemy_name)
         super().__init__()
         self.name = enemy_name
+
+        #Used to keep track of our frames and how long we play them for, instead of just instantly rolling through them
+        self.GLOBAL_DELTA = 0
+
         self.framelength_idle = 32
         self.framesize_left = 32
         self.framesize_right = 32
@@ -96,17 +100,32 @@ class EnemyCharacter(arcade.Sprite):
         self.cur_texture = 0
         self.scale = CHARACTER_SCALING * self.scale_multiplier
 
-        # Track our state
+        # Track our state of the actual sprite, this is what determines how it's moving, not the other way around
         self.jumping = False
-        self.climbing = False
-        self.is_on_ladder = False
+        self.is_idle = False
         self.is_down = False
+        self.is_movingleft = False
+        self.is_movingright = False
+        self.is_movingup = False
+        self.is_movingdown = False
+        self.is_attack1 = False
+        self.is_attack2 = False
+        self.is_attack3 = False
+        self.is_attack4 = False
 
+
+        #Tracks the frame that the state is in, these revert to zero when the sprite goes idle
         self.right_state = 0
         self.left_state = 0
         self.up_state = 0
         self.down_state = 0
+        self.attack1_state = 0
+        self.attack2_state = 0
+        self.attack3_state = 0
+        self.attack4_state = 0
 
+        #Holds our actual images for the animations. Animations are always 1 row(Makes for easier loading) and have different files for each state
+        self.animationset_idle = []
         self.animationset_left = []
         self.animationset_right = []
         self.animationset_up = []
@@ -128,6 +147,10 @@ class EnemyCharacter(arcade.Sprite):
         pass
     def update_animation(self, delta_time: float = 1 / 60):
 
+        self.GLOBAL_DELTA += delta_time
+        if self.GLOBAL_DELTA > 1:
+            self.GLOBAL_DELTA = 0
+
         # Figure out if we need to flip face left or right
         if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
             self.character_face_direction = LEFT_FACING
@@ -135,12 +158,12 @@ class EnemyCharacter(arcade.Sprite):
             self.character_face_direction = RIGHT_FACING
 
         if self.change_y > 0:
-            self.texture = self.jump_texture_pair[self.up_state]
+            self.texture = self.animationset_up[self.up_state]
             self.jumping = True
 
-            self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
+            self.set_hit_box(self.hitbox_up)
 
-            if self.up_state == 7:
+            if self.up_state == self.framelength_up:
                 pass
             else:
                 self.up_state += 1
@@ -148,20 +171,12 @@ class EnemyCharacter(arcade.Sprite):
 
         elif self.change_y < 0 and not self.jumping:
             self.texture = self.down_texture_pair[self.down_state]
-            self.set_hit_box([[-30, -32], [19, -32], [20, -20], [0, -20]])
-            if self.down_state == 7:
+            self.set_hit_box(self.hitbox_down)
+            if self.down_state == self.framelength_down:
                 pass
             else:
                 self.down_state += 1
             return
-        elif self.change_y < 0 and self.jumping:
-            self.texture = self.fall_texture_pair[self.down_state]
-            self.set_hit_box([[-5, -32], [5, -32], [25, 10], [-25, 10]])
-
-            if self.down_state == 7:
-                pass
-            else:
-                self.down_state += 1
 
         # Idle animation
         if self.change_x == 0:
@@ -172,21 +187,15 @@ class EnemyCharacter(arcade.Sprite):
             self.down_state = 0
             self.cur_texture = 0
             self.is_down = False
-            self.texture = self.idle_texture_pair[self.character_face_direction]
-            self.set_hit_box([[-30, -32], [19, -32], [20, 10], [0, 0]])
+            self.texture = self.animationset_idle[self.cur_texture]
+            self.set_hit_box(self.hitbox_idle)
             return
 
         # Walking animation
         self.cur_texture += 1
 
-        if self.cur_texture > 7:
-            self.cur_texture = 3
-        if self.character_face_direction == LEFT_FACING:
-            self.set_hit_box([[0, -32], [30, -32], [15, 10], [-10, 0]])
-        elif self.character_face_direction == RIGHT_FACING:
-            self.set_hit_box([[-30, -32], [19, -32], [20, 10], [0, 0]])
 
-        self.texture = self.walk_textures[self.cur_texture][
+        self.texture = self.anim[self.cur_texture][
             self.character_face_direction
         ]
 

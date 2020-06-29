@@ -611,7 +611,7 @@ class Battle(arcade.View):
             else:
                 # Self damage goes here
                 self.command_buffer = (
-                    "oailsdhjfkljh aslkdfgbaHBWKEHJbdDLKHJKJHASKDF jhbkjhAKSJDHBKJB"
+                    "Spell Failed"
                 )
                 pass
         if len(self.command_buffer) > 50:

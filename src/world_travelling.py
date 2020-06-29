@@ -3,11 +3,8 @@ import arcade
 import os
 from spells import *
 from battle import *
-
-# Constants
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 680
-SCREEN_TITLE = "Explore!"
+from pyglet.gl import GL_NEAREST
+from pyglet.gl import GL_LINEAR
 
 # Constants used to scale our sprites from their original size
 TILE_SCALING = 1
@@ -184,12 +181,12 @@ class PlayerCharacter(arcade.Sprite):
       self.texture = self.walk_textures_right[self.cur_texture]
     return
 
-class World(arcade.Window):
+class World(arcade.View):
 
   def __init__(self):
 
     # Call the parent class and set up the window
-    super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    super().__init__()
 
     # Set the path to start with this program
     file_path = os.path.dirname(os.path.abspath(__file__))
@@ -239,7 +236,7 @@ class World(arcade.Window):
     self.player_list = arcade.SpriteList()
     self.background_list = arcade.SpriteList()
     self.wall_list = arcade.SpriteList()
-
+    self.enemy_list = arcade.SpriteList()
     # Set up the player, specifically placing it at these coordinates.
     self.player_sprite = PlayerCharacter()
 
@@ -269,6 +266,8 @@ class World(arcade.Window):
     # -- Platforms
     self.wall_list = arcade.tilemap.process_layer(my_map, "Collision", TILE_SCALING)
 
+    # -- Enemies
+    self.enemy_list = arcade.tilemap.process_layer(my_map, "Enemy", TILE_SCALING)
 
     # -- Moving Platforms
     moving_platforms_list = arcade.tilemap.process_layer(my_map, moving_platforms_layer_name, TILE_SCALING)
@@ -298,15 +297,14 @@ class World(arcade.Window):
     arcade.start_render()
 
     # Draw our sprites
-    self.background_list.draw()
-    self.background_list2.draw()
-    self.wall_list.draw()
+    self.background_list.draw(filter=GL_NEAREST)
+    self.background_list2.draw(filter=GL_NEAREST)
+    self.wall_list.draw(filter=GL_NEAREST)
     #self.ladder_list.draw()
     #self.coin_list.draw()
-    self.player_list.draw()
-
+    self.player_list.draw(filter=GL_NEAREST)
+    self.enemy_list.draw(filter=GL_NEAREST)
     # Draw our score on the screen, scrolling it with the viewport
-    score_text = f"Score: {self.score}"
     #arcade.draw_text(self.command_buffer, 32, 60, arcade.csscolor.GREY, 18, 0, "left", ('calibre','arial') )
 
     # Draw hit boxes.
@@ -401,10 +399,14 @@ class World(arcade.Window):
 
 
     # See if we hit any coins
-    #item_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.item_list)
+    enemy_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)
 
-    # Loop through each coin we hit (if any) and remove it
-    #for coin in coin_hit_list:
+    # Loop through each enemy we hit (if any) and battle it
+    for enemy in enemy_hit_list:
+      current_battle = Battle()
+      print(enemy.properties)
+      current_battle.setup(enemy.properties["name"])
+      self.window.show_view(current_battle)
       # Figure out how many points this coin is worth
     #  if 'Points' not in coin.properties:
     #    print("Warning, collected a coin without a Points property.")

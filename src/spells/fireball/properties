@@ -4,9 +4,9 @@ framesize3 64
 numframes1 6
 numframes2 2
 numframes3 6
-playbackspeed1 1
-playbackspeed2 1
-playbackspeed3 1
+playbackspeed1 0.2
+playbackspeed2 0.2
+playbackspeed3 0.01
 hitbox1 [[-10,-10],[10,-10],[10,10],[-10,10]]
 hitbox2 [[-10,-10],[10,-10],[10,10],[-10,10]]
 hitbox3 [[-10,-10],[10,-10],[10,10],[-10,10]]

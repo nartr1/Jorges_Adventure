@@ -34,7 +34,7 @@ TOP_VIEWPORT_MARGIN = 100
 PLAYER_START_X = 100  # SPRITE_PIXEL_SIZE * TILE_SCALING * 2
 PLAYER_START_Y = 400  # (SPRITE_PIXEL_SIZE * TILE_SCALING * 1) - 200
 ENEMY_START_X = 600
-ENEMY_START_Y = 400
+ENEMY_START_Y = 408
 
 # Constants used to track if the player is facing left or right
 
@@ -346,8 +346,8 @@ class Battle(arcade.View):
         # Draw all of our spell hitboxes for testing
         for spell in self.spell_list:
             spell.draw_hit_box(arcade.color.RED, 3)
-        for enemy in self.enemy_list:
-            enemy.draw_hit_box(arcade.color.RED, 3)
+        #for enemy in self.enemy_list:
+        #    enemy.draw_hit_box(arcade.color.RED, 3)
 
     def process_keychange(self):
         # Process up/down
@@ -412,33 +412,38 @@ class Battle(arcade.View):
         # Our spell control on the screen
         for spell in self.spell_list:
 
-            if spell.follows_player:
-                spell.follow_sprite(self.player_sprite, 10)
+            if spell.has_been_cast:
+                if spell.follows_player:
+                    spell.follow_sprite(self.player_sprite, 10)
 
-            elif spell.follows_enemy:
-                spell.follow_sprite(self.enemy_sprite, 10)
+                elif spell.follows_enemy:
+                    spell.follow_sprite(self.enemy_sprite, 10)
 
-            elif spell.follows_mouse:
-                spell.follow_target([self.mouse_x, self.mouse_y])
+                elif spell.follows_mouse:
+                    spell.follow_target([self.mouse_x, self.mouse_y])
 
-            elif spell.spawn_above:
-                spell.spawn_above(spell.spell_target, spell.spell_speed, spell.distance)
+                elif spell.spawn_above:
+                    spell.spawn_above(spell.spell_target, spell.spell_speed, spell.distance)
 
-            elif spell.spawn_below:
-                spell.spawn_below(spell.spell_target, spell.spell_speed, spell.distance)
+                elif spell.spawn_below:
+                    spell.spawn_below(spell.spell_target, spell.spell_speed, spell.distance)
+                else:
+                    spell.move_to_target(self.player_sprite, [800, 432], 10)
             else:
-                spell.move_to_target(self.player_sprite, [800, 432], 10)
+                spell.follow_sprite(self.player_sprite, 10)
 
         for spell in self.spell_list:
             walls_hit = arcade.check_for_collision_with_list(spell, self.wall_list)
             for wall in walls_hit:
                 print("Spell hit a wall!")
+                spell.has_hit = True
                 spell.on_collision()
 
         self.spell_list.update_animation(delta_time)
 
         self.background_list.update_animation(delta_time)
         self.player_list.update_animation(delta_time)
+        self.enemy_list.update_animation(delta_time)
 
         player_hit_list = arcade.check_for_collision(
             self.player_sprite, self.enemy_sprite

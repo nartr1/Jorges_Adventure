@@ -28,6 +28,7 @@ class EnemyCharacter(arcade.Sprite):
         #Used to keep track of our frames and how long we play them for, instead of just instantly rolling through them
         self.GLOBAL_DELTA = 0
 
+        #The default values for these properties are the same as the slime enemy. When setup is run, they are overwritten
         self.framelength_idle = 32
         self.framesize_left = 32
         self.framesize_right = 32
@@ -148,7 +149,7 @@ class EnemyCharacter(arcade.Sprite):
     def update_animation(self, delta_time: float = 1 / 60):
 
         self.GLOBAL_DELTA += delta_time
-        if self.GLOBAL_DELTA > 1:
+        if self.GLOBAL_DELTA > 2:
             self.GLOBAL_DELTA = 0
 
         # Figure out if we need to flip face left or right
@@ -180,25 +181,25 @@ class EnemyCharacter(arcade.Sprite):
 
         # Idle animation
         if self.change_x == 0:
+            #print("Enemy is idle! Current Texture is ", self.cur_texture, "Global Delta: ", self.GLOBAL_DELTA)
             self.jumping = False
             self.right_state = 0
             self.left_state = 0
             self.up_state = 0
             self.down_state = 0
-            self.cur_texture = 0
             self.is_down = False
             self.texture = self.animationset_idle[self.cur_texture]
             self.set_hit_box(self.hitbox_idle)
+
+        # Idle animation
+        if self.GLOBAL_DELTA > self.playbackspeed_idle:
+            if self.cur_texture == self.framelength_idle - 1:
+                self.cur_texture = 0
+                self.GLOBAL_DELTA = 0
+                return
+            self.cur_texture += 1
+            self.GLOBAL_DELTA = 0
             return
-
-        # Walking animation
-        self.cur_texture += 1
-
-
-        self.texture = self.anim[self.cur_texture][
-            self.character_face_direction
-        ]
-
 
 def get_properties(enemy_object, enemy_path):
     properties = {}
@@ -246,23 +247,23 @@ def get_properties(enemy_object, enemy_path):
     #  framelength_attack4 None
     enemy_object.framelength_attack4 = int(properties["framelength_attack4"])
     #  playbackspeed_idle 1
-    enemy_object.playbackspeed_idle = int(properties["playbackspeed_idle"])
+    enemy_object.playbackspeed_idle = float(properties["playbackspeed_idle"])
     #  playbackspeed_left 1
-    enemy_object.playbackspeed_left = int(properties["playbackspeed_left"])
+    enemy_object.playbackspeed_left = float(properties["playbackspeed_left"])
     #  playbackspeed_right 1
-    enemy_object.playbackspeed_right = int(properties["playbackspeed_right"])
+    enemy_object.playbackspeed_right = float(properties["playbackspeed_right"])
     #  playbackspeed_up None
-    enemy_object.playbackspeed_up = int(properties["playbackspeed_up"])
+    enemy_object.playbackspeed_up = float(properties["playbackspeed_up"])
     #  playbackspeed_down None
-    enemy_object.playbackspeed_down = int(properties["playbackspeed_down"])
+    enemy_object.playbackspeed_down = float(properties["playbackspeed_down"])
     #  playbackspeed_attack1
-    enemy_object.playbackspeed_attack1 = int(properties["playbackspeed_attack1"])
+    enemy_object.playbackspeed_attack1 = float(properties["playbackspeed_attack1"])
     #  playbackspeed_attack2 None
-    enemy_object.playbackspeed_attack2 = int(properties["playbackspeed_attack2"])
+    enemy_object.playbackspeed_attack2 = float(properties["playbackspeed_attack2"])
     #  playbackspeed_attack3 None
-    enemy_object.playbackspeed_attack3 = int(properties["playbackspeed_attack3"])
+    enemy_object.playbackspeed_attack3 = float(properties["playbackspeed_attack3"])
     #  playbackspeed_attack4 None
-    enemy_object.playbackspeed_attack4 = int(properties["playbackspeed_attack4"])
+    enemy_object.playbackspeed_attack4 = float(properties["playbackspeed_attack4"])
     #  hitbox_left [[-10,-10],[10,-10],[10,10],[-10,10]]
     enemy_object.hitbox_idle = ast.literal_eval(properties["hitbox_idle"])
     #  hitbox_left [[-10,-10],[10,-10],[10,10],[-10,10]]

@@ -35,6 +35,7 @@ class Spell(arcade.Sprite):
 
         # Let's us keep track of if the spell has been cast, used for animations
         self.has_been_cast = 0
+        self.has_hit = 0
         # Where the spell is fired from
         self.spell_origin = 0
         # Target will be used to determine where the spell is going
@@ -92,7 +93,9 @@ class Spell(arcade.Sprite):
         self.state = 0
 
         # Animation states keep track of our frame
-        self.animation_state = 0
+        self.animation_state1 = 0
+        self.animation_state2 = 0
+        self.animation_state3 = 0
 
         # Holds how big in pixels each frame is
         self.animation_size1 = 0
@@ -104,7 +107,7 @@ class Spell(arcade.Sprite):
         self.animation_length2 = 0
         self.animation_length3 = 0
 
-        # The speed at which the animation plays, 1 being the default, .5 being half as fast, 2 being twice as fast
+        # The speed at which the animation plays, based off when the cumulative delta time hits this value
         self.animation_speed1 = 0
         self.animation_speed2 = 0
         self.animation_speed3 = 0
@@ -193,18 +196,56 @@ class Spell(arcade.Sprite):
         pass
 
     # This tells us what animations to play when we hit something
-    def on_collision(self,):
-        if self.collides_with_walls:
-            self.remove_from_sprite_lists()
-        pass
+    def on_collision(self):
+        self.has_hit = True
+        return
+    def death_on_collision(self):
+        self.remove_from_sprite_lists()
+
 
     def update_animation(self, delta_time: float = 1/60):
         self.GLOBAL_DELTA += delta_time
-        if self.GLOBAL_DELTA > 1:
+        if self.GLOBAL_DELTA > 2:
             self.GLOBAL_DELTA = 0
 
-        pass
 
+        #Check state, figure out which stage in animation we are in, increase the frame
+        if self.state == 0:
+            if self.GLOBAL_DELTA > self.animation_speed1:
+                self.GLOBAL_DELTA = 0
+                if self.animation_state1 < self.animation_length1:
+                    self.texture = self.animation_set1[self.animation_state1]
+                    self.animation_state1 += 1
+                else:
+                    self.animation_state1 = 0
+                    self.state += 1
+                    self.has_been_cast = True
+                    return
+
+        if self.state == 1:
+            if self.GLOBAL_DELTA > self.animation_speed2:
+                self.GLOBAL_DELTA = 0
+                if self.animation_state2 < self.animation_length2:
+                    self.texture = self.animation_set2[self.animation_state2]
+                    self.animation_state2 += 1
+                else:
+                    self.animation_state2 = 0
+                    return
+
+
+        if self.state == 2:
+            if self.GLOBAL_DELTA > self.animation_speed3:
+                self.GLOBAL_DELTA = 0
+                if self.has_hit:
+                    if self.collides_with_walls:
+                        self.remove_from_sprite_lists()
+                elif self.animation_state3 < self.animation_length3:
+                    self.texture = self.animation_set3[self.animation_state3]
+                    self.animation_state3 += 3
+                else:
+                    self.animation_state3 = 0
+                    self.state += 1
+                    return
 
 ###############################################################################################################################
 # Setting of the spell properties and attributes go in here
@@ -251,15 +292,15 @@ def get_spell_properties(spell_object, spell_path):
     #Possibly going to migrate this to json or yaml and use in a python3 dataclass, need to play around with it first
     spell_object.animation_size1 = int(properties["framesize1"])
     spell_object.animation_length1 = int(properties["numframes1"])
-    spell_object.animation_speed1 = int(properties["playbackspeed1"])
+    spell_object.animation_speed1 = float(properties["playbackspeed1"])
 
     spell_object.animation_size2 = int(properties["framesize2"])
     spell_object.animation_length2 = int(properties["numframes2"])
-    spell_object.animation_speed2 = int(properties["playbackspeed2"])
+    spell_object.animation_speed2 = float(properties["playbackspeed2"])
 
     spell_object.animation_size3 = int(properties["framesize3"])
     spell_object.animation_length3 = int(properties["numframes3"])
-    spell_object.animation_speed3 = int(properties["playbackspeed3"])
+    spell_object.animation_speed3 = float(properties["playbackspeed3"])
 
     spell_object.hitbox1 = ast.literal_eval(properties["hitbox1"])
     spell_object.hitbox2 = ast.literal_eval(properties["hitbox2"])

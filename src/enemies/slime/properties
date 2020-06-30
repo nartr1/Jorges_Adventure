@@ -16,9 +16,9 @@ framelength_attack1 6
 framelength_attack2 0
 framelength_attack3 0
 framelength_attack4 0
-playbackspeed_idle 1
-playbackspeed_left 1
-playbackspeed_right 1
+playbackspeed_idle 0.5
+playbackspeed_left 0.5
+playbackspeed_right 0.5
 playbackspeed_up 0
 playbackspeed_down 0
 playbackspeed_attack1 1
